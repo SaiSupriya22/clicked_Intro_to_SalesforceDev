@@ -1,0 +1,36 @@
+<template>
+    <lightning-card title="Bill List" icon-name="standard:account">
+        <div class="slds-p-horizontal_small">
+            <lightning-input 
+                label="Search" 
+                placeholder="Search by Invoice Number or Account Name" 
+                value={searchKey}
+                onchange={handleSearchChange}>
+            </lightning-input>
+        </div>
+
+        <lightning-layout multiple-rows>
+            <template if:true={bills}>
+                <template for:each={bills} for:item="bill">
+                    <lightning-layout-item key={bill.Id} size="12">
+                        <div class="slds-box slds-box_xx-small">
+                            <div>
+                                <a href="javascript:void(0);" onclick={handleNavigateToBill}>
+                                    <strong>Invoice Number: {bill.InvoiceNumber__c}</strong>
+                                </a>
+                            </div>
+                            <div>Balance: {bill.Balance__c}</div>
+                            <div>Account Name: {bill.Account__r.Name}</div>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+            </template>
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+            <template if:true={error}>
+                <p>{error}</p>
+            </template>
+        </lightning-layout>
+    </lightning-card>
+</template>
